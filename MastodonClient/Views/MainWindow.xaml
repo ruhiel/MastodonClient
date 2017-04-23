@@ -36,9 +36,14 @@
             <ListBox ItemsSource="{Binding UserStatusList}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel>
-                            <TextBlock Text="{Binding Content}" />
-                        </StackPanel>
+                        <Grid Height="50">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition Width="125"/>
+                            </Grid.ColumnDefinitions>
+                            <Image Grid.Column="0" Source="{Binding AvatarIcon.Value}" Width="50" Height="50"/>
+                            <TextBlock Grid.Column="1" TextWrapping="Wrap" Text="{Binding Content.Value}" />
+                        </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
@@ -47,9 +52,14 @@
             <ListBox ItemsSource="{Binding PublicStatusList}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel>
-                            <TextBlock Text="{Binding Content}" />
-                        </StackPanel>
+                        <Grid Height="50">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition Width="125"/>
+                            </Grid.ColumnDefinitions>
+                            <Image Grid.Column="0" Source="{Binding AvatarIcon.Value}" Width="50" Height="50"/>
+                            <TextBlock Grid.Column="1" TextWrapping="Wrap" Text="{Binding Content.Value}" />
+                        </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>

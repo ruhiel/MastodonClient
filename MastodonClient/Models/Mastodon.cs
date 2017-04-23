@@ -19,9 +19,9 @@ namespace MastodonClient.Models
 
         public static Mastodon Instance { get; } = new Mastodon();
 
-        public ObservableCollection<Status> PublicStatusList { get; private set; } = new ObservableCollection<Status>();
+        public LimitObservableCollection<Status> PublicStatusList { get; private set; } = new LimitObservableCollection<Status>(100);
 
-        public ObservableCollection<Status> UserStatusList { get; private set; } = new ObservableCollection<Status>();
+        public LimitObservableCollection<Status> UserStatusList { get; private set; } = new LimitObservableCollection<Status>(100);
 
         private TimelineStreaming _PublicStream;
 
@@ -114,7 +114,7 @@ namespace MastodonClient.Models
 
             _PublicStream.OnUpdate += (_, e) =>
             {
-                PublicStatusList.Insert(0, e.Status);
+                PublicStatusList.Add(e.Status);
             };
 
             _UserStream = MastodonClient.GetUserStreaming();
@@ -123,7 +123,7 @@ namespace MastodonClient.Models
 
             _UserStream.OnUpdate += (_, e) =>
             {
-                UserStatusList.Insert(0, e.Status);
+                UserStatusList.Add(e.Status);
             };
         }
         public void Stop()

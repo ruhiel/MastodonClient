@@ -2,6 +2,7 @@
 using MastodonClient.Views;
 using Mastonet.Entities;
 using Reactive.Bindings;
+using Reactive.Bindings.Extensions;
 using System;
 using System.Collections.ObjectModel;
 using System.Windows;
@@ -18,9 +19,9 @@ namespace MastodonClient.ViewModels
 
         public ReactiveProperty<Mastonet.Visibility> SelectedVisibility { get; private set; }
 
-        public ObservableCollection<Status> PublicStatusList => Mastodon.Instance.PublicStatusList;
+        public LimitObservableCollection<StatusViewModel> PublicStatusList { get; private set; }
 
-        public ObservableCollection<Status> UserStatusList => Mastodon.Instance.UserStatusList;
+        public LimitObservableCollection<StatusViewModel> UserStatusList { get; private set; }
 
         public MainWindowViewModel()
         {
@@ -52,6 +53,36 @@ namespace MastodonClient.ViewModels
                 await Mastodon.Instance.Initialize();
 
                 Mastodon.Instance.Start();
+            });
+
+            PublicStatusList = new LimitObservableCollection<StatusViewModel>(100);
+
+            UserStatusList = new LimitObservableCollection<StatusViewModel>(100);
+
+            Mastodon.Instance.PublicStatusList.CollectionChangedAsObservable().Subscribe(x =>
+            {
+                if(x.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
+                {
+                    foreach (var item in x.NewItems)
+                    {
+                        var model = new StatusModel((Status)item);
+
+                        PublicStatusList.Add(new StatusViewModel(model));
+                    }
+                }
+            });
+
+            Mastodon.Instance.UserStatusList.CollectionChangedAsObservable().Subscribe(x =>
+            {
+                if (x.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
+                {
+                    foreach (var item in x.NewItems)
+                    {
+                        var model = new StatusModel((Status)item);
+
+                        PublicStatusList.Add(new StatusViewModel(model));
+                    }
+                }
             });
         }
     }
