@@ -80,7 +80,7 @@ namespace MastodonClient.ViewModels
                     {
                         var model = new StatusModel((Status)item);
 
-                        PublicStatusList.Add(new StatusViewModel(model));
+                        UserStatusList.Add(new StatusViewModel(model));
                     }
                 }
             });

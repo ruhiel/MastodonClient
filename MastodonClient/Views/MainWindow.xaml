@@ -9,6 +9,7 @@
         mc:Ignorable="d"
         xmlns:vm="clr-namespace:MastodonClient.ViewModels"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:converter="clr-namespace:MastodonClient.Views.Converters"
         Title="MastodonClient" Height="700" Width="350">
     <Controls:MetroWindow.DataContext>
         <vm:MainWindowViewModel/>
@@ -18,6 +19,9 @@
             <Button Content="アカウント設定" Command="{Binding AccountCommand}"/>
         </Controls:WindowCommands>
     </Controls:MetroWindow.RightWindowCommands>
+    <Controls:MetroWindow.Resources>
+        <converter:HtmlToFlowDocConverter x:Key="HtmlToFlowDocConverter"/>
+    </Controls:MetroWindow.Resources>
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
             <Interactivity:EventToReactiveCommand Command="{Binding LoadCommand, Mode=OneWay}"/>
@@ -36,13 +40,13 @@
             <ListBox ItemsSource="{Binding UserStatusList}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <Grid Height="50">
+                        <Grid Height="100">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="50"/>
-                                <ColumnDefinition Width="125"/>
+                                <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Image Grid.Column="0" Source="{Binding AvatarIcon.Value}" Width="50" Height="50"/>
-                            <TextBlock Grid.Column="1" TextWrapping="Wrap" Text="{Binding Content.Value}" />
+                            <FlowDocumentScrollViewer Grid.Column="1" Document="{Binding Content.Value, Converter={StaticResource HtmlToFlowDocConverter}}" />
                         </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
@@ -52,13 +56,13 @@
             <ListBox ItemsSource="{Binding PublicStatusList}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <Grid Height="50">
+                        <Grid Height="100">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="50"/>
-                                <ColumnDefinition Width="125"/>
+                                <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Image Grid.Column="0" Source="{Binding AvatarIcon.Value}" Width="50" Height="50"/>
-                            <TextBlock Grid.Column="1" TextWrapping="Wrap" Text="{Binding Content.Value}" />
+                            <FlowDocumentScrollViewer Grid.Column="1" Document="{Binding Content.Value, Converter={StaticResource HtmlToFlowDocConverter}}" />
                         </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
@@ -69,7 +73,7 @@
                 <RowDefinition Height="4*"/>
                 <RowDefinition Height="1*"/>
             </Grid.RowDefinitions>
-            <TextBox x:Name="Toot" Grid.Row="0" Controls:TextBoxHelper.Watermark="トゥート"/>
+            <TextBox AcceptsReturn="True" x:Name="Toot" Grid.Row="0" Controls:TextBoxHelper.Watermark="トゥート"/>
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="4*"/>

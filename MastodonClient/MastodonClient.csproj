@@ -34,6 +34,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="HtmlToXamlConverter, Version=1.0.5727.24510, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\HtmlToXamlConverter.1.0.5727.24510\lib\net45\HtmlToXamlConverter.dll</HintPath>
+    </Reference>
     <Reference Include="MahApps.Metro, Version=1.5.0.23, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.5.0\lib\net45\MahApps.Metro.dll</HintPath>
     </Reference>
@@ -101,6 +104,7 @@
     <Compile Include="Models\StatusModel.cs" />
     <Compile Include="Models\WrappingStream.cs" />
     <Compile Include="ViewModels\StatusViewModel.cs" />
+    <Compile Include="Views\Converters\HtmlToFlowDocConverter.cs" />
     <Compile Include="Views\Converters\VisibilityConverter.cs" />
     <Page Include="Views\LoginInfoWindow.xaml">
       <SubType>Designer</SubType>
